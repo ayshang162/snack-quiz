@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What Asian Snack Are You?</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: white;
+      border-radius: 24px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+      max-width: 600px;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #d63384, #ff6b6b);
+      color: white;
+      padding: 28px 32px;
+      text-align: center;
+    }
+
+    .header h1 { font-size: 1.6rem; font-weight: 800; margin-bottom: 6px; }
+    .header p { opacity: 0.9; font-size: 0.9rem; }
+
+    .progress-bar { height: 6px; background: #f0f0f0; }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #d63384, #ff6b6b);
+      transition: width 0.4s ease;
+    }
+
+    .screen { display: none; }
+    .screen.active { display: block; animation: fadeIn 0.3s ease; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Intro ── */
+    .intro {
+      padding: 44px 32px;
+      text-align: center;
+    }
+    .intro .big-emoji { font-size: 3.6rem; margin-bottom: 16px; }
+    .intro h2 { font-size: 1.35rem; font-weight: 700; color: #222; margin-bottom: 12px; }
+    .intro p { color: #666; line-height: 1.7; margin-bottom: 28px; }
+
+    /* ── Quiz ── */
+    .quiz-body { padding: 32px; }
+    .question-num {
+      font-size: 0.75rem;
+      color: #aaa;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+    .question-text {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #222;
+      margin-bottom: 22px;
+      line-height: 1.4;
+    }
+    .options { display: flex; flex-direction: column; gap: 10px; }
+    .option {
+      padding: 14px 18px;
+      border: 2px solid #eee;
+      border-radius: 14px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      color: #444;
+      text-align: left;
+      background: white;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: all 0.18s ease;
+    }
+    .option:hover {
+      border-color: #d63384;
+      background: #fff0f8;
+      color: #d63384;
+      transform: translateX(4px);
+    }
+    .option .opt-emoji { font-size: 1.15rem; min-width: 22px; }
+
+    /* ── Result ── */
+    .result {
+      text-align: center;
+      padding: 40px 32px;
+    }
+    .result-emoji { font-size: 5rem; display: block; margin-bottom: 14px; }
+    .result-snack {
+      font-size: 2rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #d63384, #ff6b6b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 6px;
+    }
+    .result-subtitle { font-size: 0.95rem; color: #999; margin-bottom: 20px; }
+    .result-desc {
+      font-size: 0.97rem;
+      color: #444;
+      line-height: 1.75;
+      background: #fff8fc;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    .result-traits {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 28px;
+    }
+    .trait-tag {
+      background: #fff0f8;
+      color: #d63384;
+      border: 1px solid #f9c;
+      border-radius: 20px;
+      padding: 4px 14px;
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+
+    /* ── Buttons ── */
+    .btn-primary {
+      background: linear-gradient(135deg, #d63384, #ff6b6b);
+      color: white;
+      border: none;
+      border-radius: 14px;
+      padding: 15px 36px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(214, 51, 132, 0.3);
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>🍡 What Asian Snack Are You?</h1>
+    <p>6 questions · 7 possible fates</p>
+  </div>
+  <div class="progress-bar">
+    <div class="progress-fill" id="progressFill" style="width:0%"></div>
+  </div>
+
+  <!-- Intro -->
+  <div class="screen active" id="introScreen">
+    <div class="intro">
+      <div class="big-emoji">🧋🍡🍫🦑</div>
+      <h2>Your destiny is a snack.</h2>
+      <p>From the cozy warmth of mochi to the unhinged heat of chili squid chips — your personality matches exactly one iconic Asian snack. Let's find out which.</p>
+      <button class="btn-primary" onclick="startQuiz()">Let's Go →</button>
+    </div>
+  </div>
+
+  <!-- Quiz -->
+  <div class="screen" id="quizScreen">
+    <div class="quiz-body">
+      <div class="question-num" id="questionNum"></div>
+      <div class="question-text" id="questionText"></div>
+      <div class="options" id="optionsContainer"></div>
+    </div>
+  </div>
+
+  <!-- Result -->
+  <div class="screen" id="resultScreen">
+    <div class="result">
+      <span class="result-emoji" id="resultEmoji"></span>
+      <div class="result-snack" id="resultSnack"></div>
+      <div class="result-subtitle" id="resultSubtitle"></div>
+      <div class="result-desc" id="resultDesc"></div>
+      <div class="result-traits" id="resultTraits"></div>
+      <button class="btn-primary" onclick="restartQuiz()">Try Again 🔄</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Snack index: 0=Pocky 1=Mochi 2=Takoyaki 3=Boba 4=ShrimpCrackers 5=ChiliSquid 6=MatchaKitKat
+  const snacks = [
+    {
+      name: "Pocky",
+      emoji: "🍫",
+      subtitle: "The Classic Crowd-Pleaser",
+      desc: "Warm, reliable, and universally adored. Like Pocky, you come in many flavors but always deliver. People gravitate toward you because you make every situation better — parties, study sessions, movie nights. You're the glue holding your friend group together, and you never have to try hard to be liked.",
+      traits: ["Loyal", "Social", "Classic", "Dependable"]
+    },
+    {
+      name: "Mochi",
+      emoji: "🍡",
+      subtitle: "The Soft-Hearted Surprise",
+      desc: "Gentle on the outside, endlessly interesting within. You seem quiet at first glance, but once people really know you, they discover layers of warmth, creativity, and unexpected depth. You give the best hugs. You're the person friends call when they need to feel safe.",
+      traits: ["Thoughtful", "Creative", "Cozy", "Deep"]
+    },
+    {
+      name: "Takoyaki",
+      emoji: "🐙",
+      subtitle: "The Bold Street Food Soul",
+      desc: "Savory, exciting, and best experienced right now — you thrive in action. Bustling markets, loud kitchens, spontaneous adventures: this is your habitat. You don't do boring, and you refuse to apologize for it. People always remember a night out with you.",
+      traits: ["Adventurous", "Bold", "Energetic", "Memorable"]
+    },
+    {
+      name: "Boba",
+      emoji: "🧋",
+      subtitle: "The Trendy Social Butterfly",
+      desc: "Infinitely adaptable and always in style. Like boba, you fit every situation — work, dates, late-night hangs. You have a massive social circle, an opinion on every new café, and somehow always know what's cool before it goes mainstream. People love being seen with you.",
+      traits: ["Trendy", "Social", "Versatile", "Magnetic"]
+    },
+    {
+      name: "Shrimp Crackers",
+      emoji: "🦐",
+      subtitle: "The Effortlessly Easy-Going One",
+      desc: "Light, airy, and impossible to stop being around — your charm is understated but magnetic. You make everything feel relaxed and fun without even trying. You're the person everyone wants around when they need to decompress, and somehow the snack everyone finishes before they notice.",
+      traits: ["Chill", "Charming", "Easy-going", "Addictive"]
+    },
+    {
+      name: "Chili Squid Chips",
+      emoji: "🦑",
+      subtitle: "The Unforgettably Intense One",
+      desc: "You are an experience. Spicy, bold, a little chaotic — you leave a lasting impression on every room you enter. You're not for everyone, and you are completely, fully fine with that. Those who vibe with you become absolutely obsessed. Life around you is never, ever dull.",
+      traits: ["Spicy", "Intense", "Fearless", "Unforgettable"]
+    },
+    {
+      name: "Matcha Kit Kat",
+      emoji: "🍵",
+      subtitle: "The Sophisticated Connoisseur",
+      desc: "You appreciate the finer things but never take yourself too seriously. You're the one who introduced your friends to specialty coffee, obscure films, and that restaurant everyone's now obsessed with. Refined and curious — but still someone who will absolutely snap a Kit Kat bar in half.",
+      traits: ["Refined", "Unique", "Curious", "Tasteful"]
+    }
+  ];
+
+  const questions = [
+    {
+      text: "What's your ideal Saturday?",
+      options: [
+        { emoji: "🎉", text: "Hanging out with a big crew",                     scores: [2,0,0,1,0,0,0] },
+        { emoji: "🛋️", text: "Cozy night in with movies and snacks",            scores: [0,2,0,0,1,0,0] },
+        { emoji: "🗺️", text: "Exploring a new neighborhood or market",          scores: [0,0,2,0,0,1,0] },
+        { emoji: "☕", text: "Trying a trendy new café or restaurant",           scores: [0,0,0,2,0,0,1] }
+      ]
+    },
+    {
+      text: "At a party, you're the one who...",
+      options: [
+        { emoji: "😂", text: "Makes everyone lose it laughing",                  scores: [1,0,2,0,0,0,0] },
+        { emoji: "🤫", text: "Says one quiet thing that stops the whole room",  scores: [0,2,0,0,0,0,1] },
+        { emoji: "💃", text: "Somehow becomes the center of attention",          scores: [1,0,0,0,0,2,0] },
+        { emoji: "🍽️", text: "Brought the food and keeps everyone fed",         scores: [1,0,0,1,2,0,0] }
+      ]
+    },
+    {
+      text: "Your go-to flavor profile is...",
+      options: [
+        { emoji: "🍬", text: "Sweet, all day every day",                         scores: [2,1,0,0,0,0,0] },
+        { emoji: "🧀", text: "Savory and satisfying",                            scores: [0,0,1,0,2,0,0] },
+        { emoji: "🌶️", text: "Spicy — more heat, more better",                  scores: [0,0,1,0,0,2,0] },
+        { emoji: "🌿", text: "Bitter-sweet and complex",                         scores: [0,1,0,0,0,0,2] }
+      ]
+    },
+    {
+      text: "How do you make a big decision?",
+      options: [
+        { emoji: "⚡", text: "Trust your gut, decide immediately",               scores: [0,0,2,0,0,1,0] },
+        { emoji: "🌙", text: "Sleep on it and reflect slowly",                   scores: [0,2,0,0,0,0,1] },
+        { emoji: "📱", text: "Ask every friend for their opinion",               scores: [2,0,0,1,0,0,0] },
+        { emoji: "🔍", text: "Research it obsessively before moving",            scores: [0,1,0,0,0,0,2] }
+      ]
+    },
+    {
+      text: "Pick your dream vacation:",
+      options: [
+        { emoji: "🏙️", text: "Street food tour in a buzzing Asian city",        scores: [0,0,2,0,0,1,0] },
+        { emoji: "🏖️", text: "Lazy beach days, zero agenda",                    scores: [0,0,0,1,2,0,0] },
+        { emoji: "🍶", text: "Café-hopping in a stylish neighborhood",           scores: [0,0,0,2,0,0,1] },
+        { emoji: "🏔️", text: "Peaceful mountain or countryside escape",          scores: [0,2,0,0,1,0,0] }
+      ]
+    },
+    {
+      text: "What do people always say about you?",
+      options: [
+        { emoji: "🤝", text: '"You\'re always there when I need you"',           scores: [2,0,0,0,1,0,0] },
+        { emoji: "🎭", text: '"You\'re full of surprises"',                      scores: [0,1,0,0,0,2,0] },
+        { emoji: "😎", text: '"You\'re so effortlessly cool"',                   scores: [0,0,0,2,1,0,0] },
+        { emoji: "🎨", text: '"You have the most incredible taste"',             scores: [0,0,0,0,0,0,2] }
+      ]
+    }
+  ];
+
+  let scores = new Array(snacks.length).fill(0);
+  let currentQ = 0;
+
+  function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+
+  function startQuiz() {
+    showScreen('quizScreen');
+    renderQuestion();
+  }
+
+  function renderQuestion() {
+    const q = questions[currentQ];
+    document.getElementById('questionNum').textContent = `Question ${currentQ + 1} of ${questions.length}`;
+    document.getElementById('questionText').textContent = q.text;
+    document.getElementById('progressFill').style.width = `${(currentQ / questions.length) * 100}%`;
+
+    const container = document.getElementById('optionsContainer');
+    container.innerHTML = '';
+    q.options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'option';
+      btn.innerHTML = `<span class="opt-emoji">${opt.emoji}</span>${opt.text}`;
+      btn.onclick = () => selectOption(opt.scores);
+      container.appendChild(btn);
+    });
+  }
+
+  function selectOption(optScores) {
+    optScores.forEach((s, i) => scores[i] += s);
+    currentQ++;
+    if (currentQ < questions.length) {
+      renderQuestion();
+    } else {
+      showResult();
+    }
+  }
+
+  function showResult() {
+    document.getElementById('progressFill').style.width = '100%';
+
+    const maxScore = Math.max(...scores);
+    const winner = snacks[scores.indexOf(maxScore)];
+
+    document.getElementById('resultEmoji').textContent    = winner.emoji;
+    document.getElementById('resultSnack').textContent    = winner.name;
+    document.getElementById('resultSubtitle').textContent = winner.subtitle;
+    document.getElementById('resultDesc').textContent     = winner.desc;
+
+    document.getElementById('resultTraits').innerHTML =
+      winner.traits.map(t => `<span class="trait-tag">${t}</span>`).join('');
+
+    showScreen('resultScreen');
+  }
+
+  function restartQuiz() {
+    scores = new Array(snacks.length).fill(0);
+    currentQ = 0;
+    document.getElementById('progressFill').style.width = '0%';
+    showScreen('introScreen');
+  }
+</script>
+</body>
+</html>
