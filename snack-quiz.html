@@ -19,8 +19,8 @@
 
     .container {
       background: white;
-      border-radius: 24px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+      border-radius: 12px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.12);
       max-width: 600px;
       width: 100%;
       overflow: hidden;
@@ -29,14 +29,20 @@
     .header {
       background: linear-gradient(135deg, #d63384, #ff6b6b);
       color: white;
-      padding: 28px 32px;
+      padding: 24px 32px;
       text-align: center;
     }
 
-    .header h1 { font-size: 1.6rem; font-weight: 800; margin-bottom: 6px; }
-    .header p { opacity: 0.9; font-size: 0.9rem; }
+    .header h1 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .header p { opacity: 0.75; font-size: 0.8rem; letter-spacing: 0.04em; }
 
-    .progress-bar { height: 6px; background: #f0f0f0; }
+    .progress-bar { height: 3px; background: #f0f0f0; }
     .progress-fill {
       height: 100%;
       background: linear-gradient(90deg, #d63384, #ff6b6b);
@@ -44,102 +50,118 @@
     }
 
     .screen { display: none; }
-    .screen.active { display: block; animation: fadeIn 0.3s ease; }
+    .screen.active { display: block; animation: fadeIn 0.25s ease; }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(8px); }
+      from { opacity: 0; transform: translateY(6px); }
       to   { opacity: 1; transform: translateY(0); }
     }
 
     /* ── Intro ── */
     .intro {
-      padding: 44px 32px;
+      padding: 48px 36px;
       text-align: center;
     }
-    .intro .big-emoji { font-size: 3.6rem; margin-bottom: 16px; }
-    .intro h2 { font-size: 1.35rem; font-weight: 700; color: #222; margin-bottom: 12px; }
-    .intro p { color: #666; line-height: 1.7; margin-bottom: 28px; }
+    .intro .intro-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #d63384;
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+    .intro h2 { font-size: 1.6rem; font-weight: 700; color: #111; margin-bottom: 12px; line-height: 1.2; }
+    .intro p { color: #777; line-height: 1.7; margin-bottom: 32px; font-size: 0.95rem; }
 
     /* ── Quiz ── */
-    .quiz-body { padding: 32px; }
+    .quiz-body { padding: 36px 32px; }
     .question-num {
-      font-size: 0.75rem;
-      color: #aaa;
+      font-size: 0.7rem;
+      color: #bbb;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 8px;
+      letter-spacing: 0.1em;
+      margin-bottom: 10px;
     }
     .question-text {
-      font-size: 1.2rem;
+      font-size: 1.15rem;
       font-weight: 700;
-      color: #222;
-      margin-bottom: 22px;
+      color: #111;
+      margin-bottom: 24px;
       line-height: 1.4;
     }
-    .options { display: flex; flex-direction: column; gap: 10px; }
+    .options { display: flex; flex-direction: column; gap: 8px; }
     .option {
-      padding: 14px 18px;
-      border: 2px solid #eee;
-      border-radius: 14px;
+      padding: 13px 18px;
+      border: 1.5px solid #e8e8e8;
+      border-radius: 8px;
       cursor: pointer;
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       color: #444;
       text-align: left;
       background: white;
       display: flex;
       align-items: center;
       gap: 12px;
-      transition: all 0.18s ease;
+      transition: border-color 0.15s, background 0.15s, color 0.15s;
     }
     .option:hover {
       border-color: #d63384;
-      background: #fff0f8;
-      color: #d63384;
-      transform: translateX(4px);
+      background: #fff5fa;
+      color: #c0186e;
     }
-    .option .opt-emoji { font-size: 1.15rem; min-width: 22px; }
+    .option .opt-emoji { font-size: 1.05rem; min-width: 20px; }
 
     /* ── Result ── */
     .result {
       text-align: center;
-      padding: 40px 32px;
+      padding: 44px 36px;
     }
-    .result-emoji { font-size: 5rem; display: block; margin-bottom: 14px; }
+    .result-emoji { font-size: 4rem; display: block; margin-bottom: 16px; }
+    .result-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #d63384;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
     .result-snack {
       font-size: 2rem;
       font-weight: 800;
-      background: linear-gradient(135deg, #d63384, #ff6b6b);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 6px;
+      color: #111;
+      margin-bottom: 4px;
+      letter-spacing: -0.01em;
     }
-    .result-subtitle { font-size: 0.95rem; color: #999; margin-bottom: 20px; }
+    .result-subtitle { font-size: 0.88rem; color: #aaa; margin-bottom: 24px; letter-spacing: 0.02em; }
     .result-desc {
-      font-size: 0.97rem;
-      color: #444;
+      font-size: 0.94rem;
+      color: #555;
       line-height: 1.75;
-      background: #fff8fc;
-      border-radius: 16px;
+      background: #fafafa;
+      border-radius: 8px;
       padding: 20px;
       margin-bottom: 20px;
       text-align: left;
+      border: 1px solid #f0f0f0;
     }
     .result-traits {
       display: flex;
-      gap: 8px;
+      gap: 6px;
       flex-wrap: wrap;
       justify-content: center;
       margin-bottom: 28px;
     }
     .trait-tag {
-      background: #fff0f8;
+      background: white;
       color: #d63384;
-      border: 1px solid #f9c;
-      border-radius: 20px;
-      padding: 4px 14px;
-      font-size: 0.82rem;
+      border: 1.5px solid #f0b;
+      border-color: #e8a0c4;
+      border-radius: 4px;
+      padding: 4px 12px;
+      font-size: 0.75rem;
       font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
     }
 
     /* ── Buttons ── */
@@ -147,23 +169,25 @@
       background: linear-gradient(135deg, #d63384, #ff6b6b);
       color: white;
       border: none;
-      border-radius: 14px;
-      padding: 15px 36px;
-      font-size: 1rem;
+      border-radius: 8px;
+      padding: 14px 36px;
+      font-size: 0.9rem;
       font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
       cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
+      transition: opacity 0.2s, box-shadow 0.2s;
     }
     .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(214, 51, 132, 0.3);
+      opacity: 0.9;
+      box-shadow: 0 6px 18px rgba(214, 51, 132, 0.3);
     }
   </style>
 </head>
 <body>
 <div class="container">
   <div class="header">
-    <h1>🍡 What Asian Snack Are You?</h1>
+    <h1>What Asian Snack Are You?</h1>
     <p>6 questions · 7 possible fates</p>
   </div>
   <div class="progress-bar">
@@ -173,10 +197,10 @@
   <!-- Intro -->
   <div class="screen active" id="introScreen">
     <div class="intro">
-      <div class="big-emoji">🧋🍡🍫🦑</div>
+      <div class="intro-label">Personality Quiz</div>
       <h2>Your destiny is a snack.</h2>
-      <p>From the cozy warmth of mochi to the unhinged heat of chili squid chips — your personality matches exactly one iconic Asian snack. Let's find out which.</p>
-      <button class="btn-primary" onclick="startQuiz()">Let's Go →</button>
+      <p>From the cozy warmth of mochi to the sharp kick of wasabi peas — your personality matches exactly one iconic Asian snack. Let's find out which.</p>
+      <button class="btn-primary" onclick="startQuiz()">Take the Quiz</button>
     </div>
   </div>
 
@@ -193,6 +217,7 @@
   <div class="screen" id="resultScreen">
     <div class="result">
       <span class="result-emoji" id="resultEmoji"></span>
+      <div class="result-label">You are</div>
       <div class="result-snack" id="resultSnack"></div>
       <div class="result-subtitle" id="resultSubtitle"></div>
       <div class="result-desc" id="resultDesc"></div>
@@ -241,11 +266,11 @@
       traits: ["Chill", "Charming", "Easy-going", "Addictive"]
     },
     {
-      name: "Chili Squid Chips",
-      emoji: "🦑",
-      subtitle: "The Unforgettably Intense One",
-      desc: "You are an experience. Spicy, bold, a little chaotic — you leave a lasting impression on every room you enter. You're not for everyone, and you are completely, fully fine with that. Those who vibe with you become absolutely obsessed. Life around you is never, ever dull.",
-      traits: ["Spicy", "Intense", "Fearless", "Unforgettable"]
+      name: "Wasabi Peas",
+      emoji: "🫛",
+      subtitle: "The Quietly Intense One",
+      desc: "Unassuming at first glance — but the moment people get close, they feel it. You pack a punch nobody saw coming, and somehow that makes everyone want more. You're sharp, spirited, and consistently underestimated. Those who truly get you are absolutely hooked.",
+      traits: ["Sharp", "Surprising", "Spirited", "Underestimated"]
     },
     {
       name: "Matcha Kit Kat",
@@ -269,9 +294,9 @@
     {
       text: "At a party, you're the one who...",
       options: [
-        { emoji: "😂", text: "Makes everyone lose it laughing",                  scores: [1,0,2,0,0,0,0] },
-        { emoji: "🤫", text: "Says one quiet thing that stops the whole room",  scores: [0,2,0,0,0,0,1] },
-        { emoji: "💃", text: "Somehow becomes the center of attention",          scores: [1,0,0,0,0,2,0] },
+        { emoji: "😂", text: "Makes everyone laugh until their bellies hurt",    scores: [1,0,2,0,0,0,0] },
+        { emoji: "🤫", text: "Prefers to mingle with a couple of close pals",   scores: [0,2,0,0,0,0,1] },
+        { emoji: "💃", text: "Is busting out new dance moves",                   scores: [1,0,0,0,0,2,0] },
         { emoji: "🍽️", text: "Brought the food and keeps everyone fed",         scores: [1,0,0,1,2,0,0] }
       ]
     },
